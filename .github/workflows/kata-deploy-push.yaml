@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build-asset:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         asset:
@@ -17,6 +17,9 @@ jobs:
           - rootfs-image
           - rootfs-initrd
     steps:
+      - name: chomn file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: Install docker
         run: |
@@ -40,9 +43,12 @@ jobs:
           if-no-files-found: error
 
   create-kata-tarball:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-asset
     steps:
+      - name: chomn file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: get-artifacts
         uses: actions/download-artifact@v2
@@ -59,8 +65,11 @@ jobs:
           path: kata-static.tar.xz
 
   make-kata-tarball:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      - name: chomn file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: make kata-tarball
         run: |

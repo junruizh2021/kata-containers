@@ -4,7 +4,8 @@
 
 FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
-
+ENV http_proxy http://proxy.cd.intel.com:911
+ENV https_proxy https://proxy.cd.intel.com:911
 # kernel deps
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
