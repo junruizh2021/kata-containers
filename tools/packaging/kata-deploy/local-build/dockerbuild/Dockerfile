@@ -40,3 +40,5 @@ RUN apt-get update && \
 
 ENV USER ${IMG_USER}
 USER ${UID}:${GID}
+
+COPY --chown=${USER}:${USER} ./config.json /home/${USER}/.docker/

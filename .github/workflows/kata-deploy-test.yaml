@@ -6,7 +6,7 @@ name: test-kata-deploy
 
 jobs:
   check-comment-and-membership:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: |
       github.event.issue.pull_request
       && github.event_name == 'issue_comment'
@@ -35,7 +35,7 @@ jobs:
           fi
 
   build-asset:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: check-comment-and-membership
     strategy:
       matrix:
@@ -48,6 +48,9 @@ jobs:
           - rootfs-initrd
           - shim-v2
     steps:
+      - name: chomn file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: Install docker
         run: |
@@ -72,9 +75,12 @@ jobs:
           if-no-files-found: error
 
   create-kata-tarball:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-asset
     steps:
+      - name: chomn file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: get-artifacts
         uses: actions/download-artifact@v2
@@ -92,8 +98,11 @@ jobs:
 
   kata-deploy:
     needs: create-kata-tarball
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      - name: chomn file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: get-kata-tarball
         uses: actions/download-artifact@v2
