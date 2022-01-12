@@ -48,7 +48,7 @@ jobs:
           - rootfs-initrd
           - shim-v2
     steps:
-      - name: chomn file access
+      - name: chown file access
         run: |
           sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
@@ -78,7 +78,7 @@ jobs:
     runs-on: self-hosted
     needs: build-asset
     steps:
-      - name: chomn file access
+      - name: chown file access
         run: |
           sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
@@ -100,7 +100,7 @@ jobs:
     needs: create-kata-tarball
     runs-on: self-hosted
     steps:
-      - name: chomn file access
+      - name: chown file access
         run: |
           sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
