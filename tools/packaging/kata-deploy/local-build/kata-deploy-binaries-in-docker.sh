@@ -15,6 +15,8 @@ kata_dir=$(realpath "${script_dir}/../../../../")
 kata_deploy_create="${script_dir}/kata-deploy-binaries.sh"
 uid=$(id -u ${USER})
 gid=$(id -g ${USER})
+generate_dockerfile_dir=$(realpath "${script_dir}/../../../../tools/osbuilder/scripts/lib.sh")
+source ${generate_dockerfile_dir}
 
 TTY_OPT="-i"
 NO_TTY="${NO_TTY:-false}"
@@ -32,6 +34,8 @@ docker build -q -t build-kata-deploy \
 	--build-arg IMG_USER="${USER}" \
 	--build-arg UID=${uid} \
 	--build-arg GID=${gid} \
+	--build-arg http_proxy=${http_proxy} \
+	--build-arg https_proxy=${http_proxy} \
 	"${script_dir}/dockerbuild/"
 
 docker run ${TTY_OPT} \
