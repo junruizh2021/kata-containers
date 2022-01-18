@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-asset:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         asset:
@@ -18,6 +18,9 @@ jobs:
           - rootfs-initrd
           - shim-v2
     steps:
+      - name: chown file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: Install docker
         run: |
@@ -42,9 +45,12 @@ jobs:
           if-no-files-found: error
 
   create-kata-tarball:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-asset
     steps:
+      - name: chown file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: get-artifacts
         uses: actions/download-artifact@v2
@@ -62,8 +68,11 @@ jobs:
 
   kata-deploy:
     needs: create-kata-tarball
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      - name: chown file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: get-kata-tarball
         uses: actions/download-artifact@v2
@@ -111,8 +120,11 @@ jobs:
 
   upload-static-tarball:
     needs: kata-deploy
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      - name: chown file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: download-artifacts
         uses: actions/download-artifact@v2
@@ -135,8 +147,11 @@ jobs:
 
   upload-cargo-vendored-tarball:
     needs: upload-static-tarball
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      - name: chown file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: generate-and-upload-tarball
         run: |
@@ -152,8 +167,11 @@ jobs:
 
   upload-libseccomp-tarball:
     needs: upload-cargo-vendored-tarball
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      - name: chown file access
+        run: |
+          sudo chown -R $USER:$USER /home/github/CI/actions-runner/_work/kata-containers
       - uses: actions/checkout@v2
       - name: download-and-upload-tarball
         env:
