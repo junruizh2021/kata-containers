@@ -1,0 +1,11 @@
+{
+ "proxies":
+ {
+   "default":
+   {
+     "httpProxy": "http://proxy.cd.intel.com:911",
+     "httpsProxy": "http://proxy.cd.intel.com:911",
+     "noProxy": "localhost,127.0.0.1,.example.com"
+   }
+ }
+}
